@@ -5,7 +5,7 @@ const input = document.getElementById("todo-input");
 const list = document.getElementById("todo-list");
 
 let todos = loadTodos();
-let fallbackIdCounter = 0;
+let fallbackIdCounter = Date.now();
 renderTodos();
 
 form.addEventListener("submit", (event) => {
@@ -29,7 +29,7 @@ function generateId() {
     return crypto.randomUUID();
   }
   fallbackIdCounter += 1;
-  return `${Date.now()}-${fallbackIdCounter}-${Math.random().toString(16).slice(2)}`;
+  return `${Date.now()}-${fallbackIdCounter}-${Math.random().toString(36).slice(2)}`;
 }
 
 function loadTodos() {
