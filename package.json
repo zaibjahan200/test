@@ -1,5 +1,5 @@
 {
-  "name": "test",
+  "name": "todo-app",
   "version": "1.0.0",
   "description": "Simple Todo app",
   "main": "app.js",

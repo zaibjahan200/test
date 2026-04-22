@@ -1,11 +1,12 @@
 const STORAGE_KEY = "todo-app-items";
+const ID_COUNTER_KEY = "todo-app-id-counter";
 
 const form = document.getElementById("todo-form");
 const input = document.getElementById("todo-input");
 const list = document.getElementById("todo-list");
 
 let todos = loadTodos();
-let fallbackIdCounter = Date.now();
+let fallbackIdCounter = loadFallbackCounter();
 renderTodos();
 
 form.addEventListener("submit", (event) => {
@@ -28,8 +29,25 @@ function generateId() {
   if (typeof crypto !== "undefined" && typeof crypto.randomUUID === "function") {
     return crypto.randomUUID();
   }
+  const counter = nextFallbackCounter();
+  return `${counter}-${Math.random().toString(36).slice(2)}`;
+}
+
+function loadFallbackCounter() {
+  try {
+    const value = Number(localStorage.getItem(ID_COUNTER_KEY));
+    return Number.isFinite(value) && value > 0 ? value : Date.now();
+  } catch {
+    return Date.now();
+  }
+}
+
+function nextFallbackCounter() {
   fallbackIdCounter += 1;
-  return `${Date.now()}-${fallbackIdCounter}-${Math.random().toString(36).slice(2)}`;
+  try {
+    localStorage.setItem(ID_COUNTER_KEY, String(fallbackIdCounter));
+  } catch {}
+  return fallbackIdCounter;
 }
 
 function loadTodos() {
