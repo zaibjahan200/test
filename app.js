@@ -60,7 +60,9 @@ function loadTodos() {
 }
 
 function saveTodos() {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(todos));
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(todos));
+  } catch {}
 }
 
 function toggleTodo(id) {
@@ -78,7 +80,7 @@ function deleteTodo(id) {
 }
 
 function renderTodos() {
-  list.innerHTML = "";
+  list.replaceChildren();
 
   todos.forEach((todo) => {
     const item = document.createElement("li");
