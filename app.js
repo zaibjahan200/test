@@ -13,7 +13,7 @@ form.addEventListener("submit", (event) => {
   if (!text) return;
 
   todos.push({
-    id: crypto.randomUUID(),
+    id: generateId(),
     text,
     completed: false,
   });
@@ -22,6 +22,13 @@ form.addEventListener("submit", (event) => {
   saveTodos();
   renderTodos();
 });
+
+function generateId() {
+  if (typeof crypto !== "undefined" && typeof crypto.randomUUID === "function") {
+    return crypto.randomUUID();
+  }
+  return `${Date.now()}-${Math.random().toString(16).slice(2)}`;
+}
 
 function loadTodos() {
   try {
